@@ -11,11 +11,15 @@ public class EnemyController : MonoBehaviour
     public GameObject player;
     private Rigidbody rb;
     private Animator animator;
+    private CapsuleCollider collider;
+    public GameManager manager;
     
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        collider = GetComponent<CapsuleCollider>();
+
     }
     private void Update()
     {
@@ -28,7 +32,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            velocity = direcion * ((speed * Time.deltaTime) / 2);
+            velocity = Vector3.zero;
         }
 
         animator.SetFloat("Velocity", direcion.magnitude);
@@ -44,6 +48,15 @@ public class EnemyController : MonoBehaviour
 
     public void Kill()
     {
+        Destroy(rb);
+        animator.enabled = false;
+        collider.enabled = false;
 
+        manager.DeleteList(transform.gameObject);
+
+        Destroy(this);
+
+
+        
     }
 }
